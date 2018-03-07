@@ -1,4 +1,5 @@
 connection: "jonathan_south-asia_terrorism"
+label: "Terrorism in South Asia"
 
 # include all the views
 include: "*.view"
@@ -13,4 +14,6 @@ datagroup: jonathan_thesis_south_asia_default_datagroup {
 
 persist_with: jonathan_thesis_south_asia_default_datagroup
 
-explore: all_data {}
+explore: all_data {
+  sql_always_where: ${region_txt}="South Asia" ;;
+}

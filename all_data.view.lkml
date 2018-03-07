@@ -2,56 +2,71 @@ view: all_data {
   sql_table_name: south_asia.all_data ;;
 
   dimension: addnotes {
+    label: "Additional Notes"
     type: string
     sql: ${TABLE}.addnotes ;;
   }
 
   dimension: alternative {
+    group_label: "Alternative Designation"
     type: number
     sql: ${TABLE}.alternative ;;
   }
 
   dimension: alternative_txt {
+    group_label: "Alternative Designation"
     type: string
     sql: ${TABLE}.alternative_txt ;;
   }
 
   dimension: approxdate {
+    group_label: "GTD ID and Date"
+    label: "Approximate Date"
     type: string
     sql: ${TABLE}.approxdate ;;
   }
 
   dimension: attacktype1 {
+    group_label: "Attack Information"
     type: number
     sql: ${TABLE}.attacktype1 ;;
   }
 
   dimension: attacktype1_txt {
+    group_label: "Attack Information"
+    label: "Attack Type 1"
     type: string
     sql: ${TABLE}.attacktype1_txt ;;
   }
 
   dimension: attacktype2 {
+    group_label: "Attack Information"
     type: number
     sql: ${TABLE}.attacktype2 ;;
   }
 
   dimension: attacktype2_txt {
+    group_label: "Attack Information"
+    label: "Attack Type 2"
     type: string
     sql: ${TABLE}.attacktype2_txt ;;
   }
 
   dimension: attacktype3 {
+    group_label: "Attack Information"
     type: string
     sql: ${TABLE}.attacktype3 ;;
   }
 
   dimension: attacktype3_txt {
+    group_label: "Attack Information"
+    label: "Attack Type 3"
     type: string
     sql: ${TABLE}.attacktype3_txt ;;
   }
 
   dimension: city {
+    label: "City"
     type: string
     sql: ${TABLE}.city ;;
   }
@@ -162,12 +177,15 @@ view: all_data {
   }
 
   dimension: eventid {
+    group_label: "GTD ID and Date"
+    label: "GTD ID"
     type: number
     value_format_name: id
     sql: ${TABLE}.eventid ;;
   }
 
   dimension: extended {
+    group_label: "GTD ID and Date"
     type: number
     sql: ${TABLE}.extended ;;
   }
@@ -228,11 +246,13 @@ view: all_data {
   }
 
   dimension: iday {
+    group_label: "GTD ID and Date"
     type: number
     sql: ${TABLE}.iday ;;
   }
 
   dimension: imonth {
+    group_label: "GTD ID and Date"
     type: number
     sql: ${TABLE}.imonth ;;
   }
@@ -270,9 +290,11 @@ view: all_data {
   }
 
   dimension: iyear {
+    group_label: "GTD ID and Date"
     type: number
     sql: ${TABLE}.iyear ;;
   }
+
 
   dimension: kidhijcountry {
     type: string
@@ -482,6 +504,7 @@ view: all_data {
   }
 
   dimension_group: resolution {
+    group_label: "GTD ID and Date"
     type: time
     timeframes: [
       raw,
@@ -517,11 +540,14 @@ view: all_data {
   }
 
   dimension: success {
+    group_label: "Attack Information"
     type: number
     sql: ${TABLE}.success ;;
   }
 
   dimension: suicide {
+    group_label: "Attack Information"
+    label: "Suicide Attack"
     type: number
     sql: ${TABLE}.suicide ;;
   }
@@ -612,86 +638,112 @@ view: all_data {
   }
 
   dimension: weapdetail {
+    group_label: "Weapon Information"
+    label: "Weapon Details"
     type: string
     sql: ${TABLE}.weapdetail ;;
   }
 
   dimension: weapsubtype1 {
+    group_label: "Weapon Information"
     type: number
     sql: ${TABLE}.weapsubtype1 ;;
   }
 
   dimension: weapsubtype1_txt {
+    group_label: "Weapon Information"
+    label: "First Weapon Sub-Type"
     type: string
     sql: ${TABLE}.weapsubtype1_txt ;;
   }
 
   dimension: weapsubtype2 {
+    group_label: "Weapon Information"
     type: number
     sql: ${TABLE}.weapsubtype2 ;;
   }
 
   dimension: weapsubtype2_txt {
+    group_label: "Weapon Information"
+    label: "Second Weapon Sub-Type"
     type: string
     sql: ${TABLE}.weapsubtype2_txt ;;
   }
 
   dimension: weapsubtype3 {
+    group_label: "Weapon Information"
     type: number
     sql: ${TABLE}.weapsubtype3 ;;
   }
 
   dimension: weapsubtype3_txt {
+    group_label: "Weapon Information"
+    label: "Third Weapon Sub-Type"
     type: string
     sql: ${TABLE}.weapsubtype3_txt ;;
   }
 
   dimension: weapsubtype4 {
+    group_label: "Weapon Information"
     type: string
     sql: ${TABLE}.weapsubtype4 ;;
   }
 
   dimension: weapsubtype4_txt {
+    group_label: "Weapon Information"
+    label: "Fourth Weapon Sub-Type"
     type: string
     sql: ${TABLE}.weapsubtype4_txt ;;
   }
 
   dimension: weaptype1 {
+    group_label: "Weapon Information"
     type: number
     sql: ${TABLE}.weaptype1 ;;
   }
 
   dimension: weaptype1_txt {
+    group_label: "Weapon Information"
+    label: "First Weapon Type"
     type: string
     sql: ${TABLE}.weaptype1_txt ;;
   }
 
   dimension: weaptype2 {
+    group_label: "Weapon Information"
     type: number
     sql: ${TABLE}.weaptype2 ;;
   }
 
   dimension: weaptype2_txt {
+    group_label: "Weapon Information"
+    label: "Second Weapon Type"
     type: string
     sql: ${TABLE}.weaptype2_txt ;;
   }
 
   dimension: weaptype3 {
+    group_label: "Weapon Information"
     type: string
     sql: ${TABLE}.weaptype3 ;;
   }
 
   dimension: weaptype3_txt {
+    group_label: "Weapon Information"
+    label: "Third Weapon Type"
     type: string
     sql: ${TABLE}.weaptype3_txt ;;
   }
 
   dimension: weaptype4 {
+    group_label: "Weapon Information"
     type: string
     sql: ${TABLE}.weaptype4 ;;
   }
 
   dimension: weaptype4_txt {
+    group_label: "Weapon Information"
+    label: "Fourth Weapon Type"
     type: string
     sql: ${TABLE}.weaptype4_txt ;;
   }
