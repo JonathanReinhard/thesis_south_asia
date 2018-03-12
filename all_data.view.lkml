@@ -164,6 +164,7 @@ view: all_data {
 
   dimension: country {
     group_label: "Incident Location"
+    label: "Country #Code"
     type: number
     sql: ${TABLE}.country ;;
   }
@@ -367,6 +368,7 @@ AUDIENCE(S)"
     sql: ${TABLE}.ishostkid ;;
   }
 
+#open bug regarding incorrect visualization for years in x-axis labels: https://github.com/looker/helltool/issues/19656
   dimension: iyear {
     group_label: "GTD ID and Date"
     label: "Year"
@@ -704,15 +706,28 @@ AUDIENCE(S)"
 
   dimension: success {
     group_label: "Attack Information"
-    type: number
-    sql: ${TABLE}.success ;;
+    label: "Success"
+    case: {
+      when: {
+        sql:  ${TABLE}.success = 1  ;;
+        label: "Yes"
+      }
+      else: "No"
+
+    }
   }
 
   dimension: suicide {
     group_label: "Attack Information"
     label: "Suicide Attack"
-    type: number
-    sql: ${TABLE}.suicide ;;
+    case: {
+      when: {
+        sql:  ${TABLE}.suicide = 1  ;;
+        label: "Yes"
+      }
+      else: "No"
+
+    }
   }
 
   dimension: summary {
@@ -941,11 +956,6 @@ AUDIENCE(S)"
 
   measure: count {
     type: count
-    drill_fields: [gname, gsubname]
-  }
-
-  measure: sum {
-    type: sum
     drill_fields: [gname, gsubname]
   }
 }
