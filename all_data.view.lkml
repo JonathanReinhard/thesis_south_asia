@@ -2,6 +2,7 @@ view: all_data {
   sql_table_name: south_asia.all_data ;;
 
   dimension: addnotes {
+    group_label: "Additional Information and Sources"
     label: "Additional Notes"
     type: string
     sql: ${TABLE}.addnotes ;;
@@ -197,11 +198,15 @@ AUDIENCE(S)"
   }
 
   dimension: dbsource {
+    group_label: "Additional Information and Sources"
+    label: "Data Collection"
     type: string
     sql: ${TABLE}.dbsource ;;
   }
 
   dimension: divert {
+    group_label: "Casualties and Consequences"
+    label: "Country That Kidnappers/Hijackers Diverted To"
     type: string
     sql: ${TABLE}.divert ;;
   }
@@ -223,6 +228,7 @@ AUDIENCE(S)"
 
   dimension: extended {
     group_label: "GTD ID and Date"
+    label: "Extended Incident?"
     type: number
     sql: ${TABLE}.extended ;;
   }
@@ -291,11 +297,14 @@ AUDIENCE(S)"
   }
 
   dimension: hostkidoutcome {
+    group_label: "Casualties and Consequences"
     type: number
     sql: ${TABLE}.hostkidoutcome ;;
   }
 
   dimension: hostkidoutcome_txt {
+    group_label: "Casualties and Consequences"
+    label: "Kidnapping/Hostage Outcome"
     type: string
     sql: ${TABLE}.hostkidoutcome_txt ;;
   }
@@ -322,27 +331,37 @@ AUDIENCE(S)"
   }
 
   dimension: int_any {
+    group_label: "Additional Information and Sources"
+    label: "International- Any of the above"
     type: number
     sql: ${TABLE}.INT_ANY ;;
   }
 
   dimension: int_ideo {
+    group_label: "Additional Information and Sources"
+    label: "International- Ideological"
     type: number
     value_format_name: id
     sql: ${TABLE}.INT_IDEO ;;
   }
 
   dimension: int_log {
+    group_label: "Additional Information and Sources"
+    label: "International- Logistical"
     type: number
     sql: ${TABLE}.INT_LOG ;;
   }
 
   dimension: int_misc {
+    group_label: "Additional Information and Sources"
+    label: "International- Miscellaneous"
     type: number
     sql: ${TABLE}.INT_MISC ;;
   }
 
   dimension: ishostkid {
+    group_label: "Casualties and Consequences"
+    label: "Hostages or Kidnapping Victims"
     type: number
     value_format_name: id
     sql: ${TABLE}.ishostkid ;;
@@ -357,6 +376,8 @@ AUDIENCE(S)"
 
 
   dimension: kidhijcountry {
+    group_label: "Casualties and Consequences"
+    label: "Country of Kidnapping/Hijacking Resolution"
     type: string
     sql: ${TABLE}.kidhijcountry ;;
   }
@@ -441,37 +462,51 @@ AUDIENCE(S)"
   }
 
   dimension: ndays {
+    group_label: "Casualties and Consequences"
+    label: "Days of Kidnapping / Hostage Incident"
     type: number
     sql: ${TABLE}.ndays ;;
   }
 
   dimension: nhostkid {
+    group_label: "Casualties and Consequences"
+    label: "Total Number of Hostages/ Kidnapping Victims"
     type: number
     value_format_name: id
     sql: ${TABLE}.nhostkid ;;
   }
 
   dimension: nhostkidus {
+    group_label: "Casualties and Consequences"
+    label: "Number of U.S. Hostages/ Kidnapping Victims"
     type: number
     sql: ${TABLE}.nhostkidus ;;
   }
 
   dimension: nhours {
+    group_label: "Casualties and Consequences"
+    label: "Hours of Kidnapping / Hostage Incident"
     type: number
     sql: ${TABLE}.nhours ;;
   }
 
   dimension: nkill {
+    group_label: "Casualties and Consequences"
+    label: "Total Number of Fatalities"
     type: number
     sql: ${TABLE}.nkill ;;
   }
 
   dimension: nkillter {
+    group_label: "Casualties and Consequences"
+    label: "Number of Perpetrator Fatalities"
     type: number
     sql: ${TABLE}.nkillter ;;
   }
 
   dimension: nkillus {
+    group_label: "Casualties and Consequences"
+    label: "Number of US Fatalities"
     type: number
     sql: ${TABLE}.nkillus ;;
   }
@@ -491,46 +526,63 @@ AUDIENCE(S)"
   }
 
   dimension: nreleased {
+    group_label: "Casualties and Consequences"
+    label: "Number Released/Escaped/Rescued"
     type: number
     sql: ${TABLE}.nreleased ;;
   }
 
   dimension: nwound {
+    group_label: "Casualties and Consequences"
+    label: "Total Number of Injured"
     type: number
     sql: ${TABLE}.nwound ;;
   }
 
   dimension: nwoundte {
+    group_label: "Casualties and Consequences"
+    label: "Number of Perpetrators Injured"
     type: number
     sql: ${TABLE}.nwoundte ;;
   }
 
   dimension: nwoundus {
+    group_label: "Casualties and Consequences"
+    label: "Number of U.S. Injured"
     type: number
     sql: ${TABLE}.nwoundus ;;
   }
 
   dimension: propcomment {
+    group_label: "Casualties and Consequences"
+    label: "Property Damage Comments"
     type: string
     sql: ${TABLE}.propcomment ;;
   }
 
   dimension: property {
+    group_label: "Casualties and Consequences"
+    label: "Property Damage"
     type: number
     sql: ${TABLE}.property ;;
   }
 
   dimension: propextent {
+    group_label: "Casualties and Consequences"
     type: number
     sql: ${TABLE}.propextent ;;
   }
 
   dimension: propextent_txt {
+    group_label: "Casualties and Consequences"
+    label: "Extent of Property Damage"
     type: string
     sql: ${TABLE}.propextent_txt ;;
   }
 
   dimension: propvalue {
+    group_label: "Casualties and Consequences"
+    label: "Value of Property Damage (in USD)"
     type: number
     sql: ${TABLE}.propvalue ;;
   }
@@ -543,32 +595,44 @@ AUDIENCE(S)"
   }
 
   dimension: ransom {
+    group_label: "Casualties and Consequences"
+    label: "Ransom Demanded"
     type: number
     sql: ${TABLE}.ransom ;;
   }
 
   dimension: ransomamt {
+    group_label: "Casualties and Consequences"
+    label: "Total Ransom Amount Demanded"
     type: number
     sql: ${TABLE}.ransomamt ;;
   }
 
   dimension: ransomamtus {
+    group_label: "Casualties and Consequences"
+    label: "Ransom Amount Demanded from U.S. Sources"
     type: string
     sql: ${TABLE}.ransomamtus ;;
   }
 
   dimension: ransomnote {
+    group_label: "Casualties and Consequences"
+    label: "Ransom Notes"
     type: string
     sql: ${TABLE}.ransomnote ;;
   }
 
   dimension: ransompaid {
+    group_label: "Casualties and Consequences"
+    label: "Total Ransom Amount Paid"
     type: number
     value_format_name: id
     sql: ${TABLE}.ransompaid ;;
   }
 
   dimension: ransompaidus {
+    group_label: "Casualties and Consequences"
+    label: "Ransom Amount Paid By U.S. Sources"
     type: string
     sql: ${TABLE}.ransompaidus ;;
   }
@@ -595,6 +659,7 @@ AUDIENCE(S)"
 
   dimension_group: resolution {
     group_label: "GTD ID and Date"
+    label: "Date of Extended Incident Resolution"
     type: time
     timeframes: [
       raw,
@@ -610,16 +675,22 @@ AUDIENCE(S)"
   }
 
   dimension: scite1 {
+    group_label: "Additional Information and Sources"
+    label: "First Source Citation"
     type: string
     sql: ${TABLE}.scite1 ;;
   }
 
   dimension: scite2 {
+    group_label: "Additional Information and Sources"
+    label: "Second Source Citation"
     type: string
     sql: ${TABLE}.scite2 ;;
   }
 
   dimension: scite3 {
+    group_label: "Additional Information and Sources"
+    label: "Third Source Citation"
     type: string
     sql: ${TABLE}.scite3 ;;
   }
@@ -870,6 +941,11 @@ AUDIENCE(S)"
 
   measure: count {
     type: count
+    drill_fields: [gname, gsubname]
+  }
+
+  measure: sum {
+    type: sum
     drill_fields: [gname, gsubname]
   }
 }
