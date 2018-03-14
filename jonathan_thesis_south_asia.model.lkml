@@ -17,3 +17,5 @@ persist_with: jonathan_thesis_south_asia_default_datagroup
 explore: all_data {
   sql_always_where: ${region_txt}="South Asia" ;;
 }
+
+explore: terrorist_organizations {}

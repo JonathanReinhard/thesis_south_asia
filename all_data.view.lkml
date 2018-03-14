@@ -956,6 +956,6 @@ AUDIENCE(S)"
 
   measure: count {
     type: count
-    drill_fields: [gname, gsubname]
+    drill_fields: [gname]
   }
 }
