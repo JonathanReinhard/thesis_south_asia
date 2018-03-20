@@ -313,15 +313,17 @@ AUDIENCE(S)"
   dimension: iday {
     group_label: "GTD ID and Date"
     label: "Day"
-    type: string
-    sql: cast(${TABLE}.iday as string) ;;
+    type: number
+    value_format: "*0#"
+    sql: ${TABLE}.iday ;;
   }
 
   dimension: imonth {
     group_label: "GTD ID and Date"
     label: "Month"
-    type: string
-    sql: Cast(${TABLE}.imonth as string) ;;
+    type: number
+    value_format: "*0#"
+    sql: ${TABLE}.imonth ;;
   }
 
   dimension: individual {
@@ -372,14 +374,15 @@ AUDIENCE(S)"
   dimension: iyear {
     group_label: "GTD ID and Date"
     label: "Year"
-    type: string
-    sql: CAST(${TABLE}.iyear as string);;
+    type: number
+    value_format_name: id
+    sql: ${TABLE}.iyear;;
   }
 
   dimension: incident_date{
     group_label: "GTD ID and Date"
     label: "Incident Date"
-    sql: CONCAT(${iyear},"-",${imonth},"-",${iday});;
+    sql: CONCAT(CAST(${iyear} as string),"-",CAST(${imonth} as string),"-",CAST(${iday} as string));;
   }
 
   dimension: kidhijcountry {
