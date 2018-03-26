@@ -1,11 +1,126 @@
 view: all_data {
+  label: "South Asia Data Collection"
   sql_table_name: south_asia.all_data ;;
 
-  dimension: addnotes {
-    group_label: "Additional Information and Sources"
-    label: "Additional Notes"
+
+## I. GTD ID and Date (sorting this view based on the Code Book Categories)
+
+  dimension: eventid {
+    group_label: "GTD ID and Date"
+    label: "GTD ID"
+    description: "The Unique ID that the Incident has in the GTD"
+    type: number
+    value_format_name: id
+    sql: ${TABLE}.eventid ;;
+  }
+
+  dimension: iyear {
+    group_label: "GTD ID and Date"
+    label: "Year"
+    type: number
+    value_format_name: id
+    sql: ${TABLE}.iyear;;
+    hidden: yes
+  }
+
+  dimension: imonth {
+    group_label: "GTD ID and Date"
+    label: "Month"
     type: string
-    sql: ${TABLE}.addnotes ;;
+    value_format: "*0#"
+    sql: ${TABLE}.imonth ;;
+    hidden: yes
+  }
+
+  dimension: iday {
+    group_label: "GTD ID and Date"
+    label: "Day"
+    type: string
+    value_format: "*0#"
+    sql: ${TABLE}.iday ;;
+    hidden: yes
+  }
+
+  dimension: incident_date{
+    group_label: "GTD ID and Date"
+    label: "Incident Date"
+    sql: CONCAT(CAST(${iyear} as string),"-",CAST(${imonth} as string),"-",CAST(IF(${iday} = 0, 1, ${iday}) as string));;
+    hidden: yes
+  }
+  dimension_group: date {
+    group_label: "Incident Date"
+    type: time
+    sql: CAST(DATE(all_data.iyear,IF(all_data.imonth = 0, 1, all_data.imonth),IF(all_data.iday = 0, 1, all_data.iday)) as TIMESTAMP);;
+    timeframes: [raw,hour,date,day_of_month,month_name, day_of_week,day_of_week_index,week,month,year]
+  }
+
+  dimension: approxdate {
+    group_label: "GTD ID and Date"
+    label: "Approximate Date"
+    type: string
+    sql: ${TABLE}.approxdate ;;
+  }
+
+  dimension: extended {
+    group_label: "GTD ID and Date"
+    label: "Extended Incident?"
+    type: number
+    sql: ${TABLE}.extended ;;
+  }
+
+  dimension_group: resolution {
+    group_label: "GTD ID and Date"
+    label: "Date of Extended Incident Resolution"
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.resolution ;;
+  }
+
+## II. Incident Information
+
+  dimension: summary {
+    group_label: "Incident Information"
+    label: "Incident Summary"
+    type: string
+    sql: ${TABLE}.summary ;;
+  }
+
+  dimension: crit1 {
+    group_label: "Incident Summary"
+    label: "Inclusion Criteria - POLITICAL, ECONOMIC, RELIGIOUS, OR SOCIAL GOAL"
+    type: number
+    sql: ${TABLE}.crit1 ;;
+  }
+
+  dimension: crit2 {
+    group_label: "Incident Summary"
+    label: "Inclusion Criteria -  INTENTION TO COERCE, INTIMIDATE OR PUBLICIZE TO LARGER
+    AUDIENCE(S)"
+    type: number
+    sql: ${TABLE}.crit2 ;;
+  }
+
+  dimension: crit3 {
+    group_label: "Incident Summary"
+    label: "Inclusion Criteria -  OUTSIDE INTERNATIONAL HUMANITARIAN LAW"
+    type: number
+    sql: ${TABLE}.crit3 ;;
+  }
+
+  dimension: doubtterr {
+    group_label: "Incident Information"
+    label: "Doubt Terrorism Proper?"
+    type: number
+    sql: ${TABLE}.doubtterr ;;
   }
 
   dimension: alternative {
@@ -21,17 +136,113 @@ view: all_data {
     sql: ${TABLE}.alternative_txt ;;
   }
 
-  dimension: approxdate {
-    group_label: "GTD ID and Date"
-    label: "Approximate Date"
-    type: string
-    sql: ${TABLE}.approxdate ;;
+  dimension: multiple {
+    group_label: "Incident Summary"
+    label: "Part of Multiple Incident"
+    type: number
+    sql: ${TABLE}.multiple ;;
   }
+
+  dimension: related {
+    group_label: "Incident Summary"
+    label: "Related Incidents"
+    type: string
+    sql: ${TABLE}.related ;;
+  }
+
+## III. Incident Location
+
+  dimension: country {
+    group_label: "Incident Location"
+    label: "Country #Code"
+    type: number
+    sql: ${TABLE}.country ;;
+    hidden: yes
+  }
+
+  dimension: country_txt {
+    group_label: "Incident Location"
+    label: "Country"
+    type: string
+    sql: ${TABLE}.country_txt ;;
+  }
+
+  dimension: region {
+    group_label: "Incident Location"
+    type: number
+    sql: ${TABLE}.region ;;
+    hidden: yes
+  }
+
+  dimension: region_txt {
+    group_label: "Incident Location"
+    label: "Region"
+    type: string
+    sql: ${TABLE}.region_txt ;;
+  }
+
+  dimension: provstate {
+    group_label: "Incident Location"
+    label: "Province / Administrative Region /State"
+    type: string
+    sql: ${TABLE}.provstate ;;
+  }
+
+  dimension: city {
+    group_label: "Incident Location"
+    label: "City"
+    type: string
+    sql: ${TABLE}.city ;;
+  }
+
+  dimension: vicinity {
+    group_label: "Incident Location"
+    label: "Vicinity"
+    type: number
+    sql: ${TABLE}.vicinity ;;
+  }
+
+
+  dimension: location {
+    group_label: "Incident Location"
+    label: "Location Details"
+    type: string
+    sql: ${TABLE}.location ;;
+  }
+
+  dimension: latitude {
+    group_label: "Incident Location"
+    type: number
+    sql: ${TABLE}.latitude ;;
+  }
+
+  dimension: longitude {
+    group_label: "Incident Location"
+    type: number
+    sql: ${TABLE}.longitude ;;
+  }
+  dimension: map_location {
+    group_label: "Incident Location"
+    label: "Map Location"
+    type: location
+    sql_latitude:${TABLE}.latitude  ;;
+    sql_longitude:${TABLE}.longitude ;;
+  }
+
+  dimension: specificity {
+    group_label: "Incident Location"
+    label: "Geocoding Specificity"
+    type: number
+    sql: ${TABLE}.specificity ;;
+  }
+
+## IV. Attack Information
 
   dimension: attacktype1 {
     group_label: "Attack Information"
     type: number
     sql: ${TABLE}.attacktype1 ;;
+    hidden: yes
   }
 
   dimension: attacktype1_txt {
@@ -45,6 +256,7 @@ view: all_data {
     group_label: "Attack Information"
     type: number
     sql: ${TABLE}.attacktype2 ;;
+    hidden: yes
   }
 
   dimension: attacktype2_txt {
@@ -58,6 +270,7 @@ view: all_data {
     group_label: "Attack Information"
     type: string
     sql: ${TABLE}.attacktype3 ;;
+    hidden: yes
   }
 
   dimension: attacktype3_txt {
@@ -67,78 +280,180 @@ view: all_data {
     sql: ${TABLE}.attacktype3_txt ;;
   }
 
-  dimension: city {
-    group_label: "Incident Location"
-    label: "City"
-    type: string
-    sql: ${TABLE}.city ;;
+  dimension: success {
+    group_label: "Attack Information"
+    label: "Success"
+    case: {
+      when: {
+        sql:  ${TABLE}.success = 1  ;;
+        label: "Yes"
+      }
+      else: "No"
+    }
   }
 
-  dimension: claim2 {
-    group_label: "Perpetrator Information"
-    label: "Second Group Claim of Responsibility?"
+  dimension: suicide {
+    group_label: "Attack Information"
+    label: "Suicide Attack"
+    case: {
+      when: {
+        sql:  ${TABLE}.suicide = 1  ;;
+        label: "Yes"
+      }
+      else: "No"
+    }
+  }
+
+## V. Weapon Information
+
+
+  dimension: weaptype1 {
+    group_label: "Weapon Information"
     type: number
-    sql: ${TABLE}.claim2 ;;
+    sql: ${TABLE}.weaptype1 ;;
+    hidden: yes
   }
 
-  dimension: claim3 {
-    group_label: "Perpetrator Information"
-    label: "Third Group Claim of Responsibility?"
+  dimension: weaptype1_txt {
+    group_label: "Weapon Information"
+    label: "First Weapon Type"
     type: string
-    sql: ${TABLE}.claim3 ;;
+    sql: ${TABLE}.weaptype1_txt ;;
   }
 
-  dimension: claimed {
-    group_label: "Perpetrator Information"
-    label: "First Group Claim of Responsibility?"
+  dimension: weapsubtype1 {
+    group_label: "Weapon Information"
     type: number
-    sql: ${TABLE}.claimed ;;
+    sql: ${TABLE}.weapsubtype1 ;;
+    hidden: yes
   }
 
-  dimension: claimmode {
-    group_label: "Perpetrator Information"
+  dimension: weapsubtype1_txt {
+    group_label: "Weapon Information"
+    label: "First Weapon Sub-Type"
+    type: string
+    sql: ${TABLE}.weapsubtype1_txt ;;
+  }
+
+  dimension: weaptype2 {
+    group_label: "Weapon Information"
     type: number
-    sql: ${TABLE}.claimmode ;;
+    sql: ${TABLE}.weaptype2 ;;
+    hidden: yes
   }
 
-  dimension: claimmode2 {
-    group_label: "Perpetrator Information"
+  dimension: weaptype2_txt {
+    group_label: "Weapon Information"
+    label: "Second Weapon Type"
     type: string
-    sql: ${TABLE}.claimmode2 ;;
+    sql: ${TABLE}.weaptype2_txt ;;
   }
 
-  dimension: claimmode2_txt {
-    group_label: "Perpetrator Information"
-    label: "Second Mode for Claim of Responsibility"
-    type: string
-    sql: ${TABLE}.claimmode2_txt ;;
+  dimension: weapsubtype2 {
+    group_label: "Weapon Information"
+    type: number
+    sql: ${TABLE}.weapsubtype2 ;;
+    hidden: yes
   }
 
-  dimension: claimmode3 {
-    group_label: "Perpetrator Information"
+  dimension: weapsubtype2_txt {
+    group_label: "Weapon Information"
+    label: "Second Weapon Sub-Type"
     type: string
-    sql: ${TABLE}.claimmode3 ;;
+    sql: ${TABLE}.weapsubtype2_txt ;;
   }
 
-  dimension: claimmode3_txt {
-    group_label: "Perpetrator Information"
-    label: "Third Mode for Claim of Responsibility"
+  dimension: weaptype3 {
+    group_label: "Weapon Information"
     type: string
-    sql: ${TABLE}.claimmode3_txt ;;
+    sql: ${TABLE}.weaptype3 ;;
+    hidden: yes
   }
 
-  dimension: claimmode_txt {
-    group_label: "Perpetrator Information"
-    label: "Mode for Claim of Responsibility"
+  dimension: weaptype3_txt {
+    group_label: "Weapon Information"
+    label: "Third Weapon Type"
     type: string
-    sql: ${TABLE}.claimmode_txt ;;
+    sql: ${TABLE}.weaptype3_txt ;;
   }
 
-  dimension: compclaim {
-    group_label: "Perpetrator Information"
-    label: "Competing Claims of Responsibility?"
+  dimension: weapsubtype3 {
+    group_label: "Weapon Information"
+    type: number
+    sql: ${TABLE}.weapsubtype3 ;;
+    hidden: yes
+  }
+
+  dimension: weapsubtype3_txt {
+    group_label: "Weapon Information"
+    label: "Third Weapon Sub-Type"
     type: string
-    sql: ${TABLE}.compclaim ;;
+    sql: ${TABLE}.weapsubtype3_txt ;;
+  }
+
+  dimension: weaptype4 {
+    group_label: "Weapon Information"
+    type: string
+    sql: ${TABLE}.weaptype4 ;;
+    hidden: yes
+  }
+
+  dimension: weaptype4_txt {
+    group_label: "Weapon Information"
+    label: "Fourth Weapon Type"
+    type: string
+    sql: ${TABLE}.weaptype4_txt ;;
+  }
+
+  dimension: weapsubtype4 {
+    group_label: "Weapon Information"
+    type: string
+    sql: ${TABLE}.weapsubtype4 ;;
+    hidden: yes
+  }
+
+  dimension: weapsubtype4_txt {
+    group_label: "Weapon Information"
+    label: "Fourth Weapon Sub-Type"
+    type: string
+    sql: ${TABLE}.weapsubtype4_txt ;;
+  }
+
+  dimension: weapdetail {
+    group_label: "Weapon Information"
+    label: "Weapon Details"
+    type: string
+    sql: ${TABLE}.weapdetail ;;
+  }
+
+## VI. Target/Victim Information
+
+  dimension: targtype1 {
+    group_label: "Target/Victim Information"
+    type: number
+    sql: ${TABLE}.targtype1 ;;
+    hidden: yes
+  }
+
+  dimension: targtype1_txt {
+    group_label: "Target/Victim Information"
+    label: "Target/Victim Type 1"
+    type: string
+    sql: ${TABLE}.targtype1_txt ;;
+  }
+
+  dimension: targsubtype1 {
+    group_label: "Target/Victim Information"
+    type: number
+    sql: ${TABLE}.targsubtype1 ;;
+    hidden: yes
+  }
+
+  dimension: targsubtype1_txt {
+    group_label: "Target/Victim Information"
+    label: "Target/Victim Subtype 1"
+    type: string
+    sql: ${TABLE}.targsubtype1_txt ;;
   }
 
   dimension: corp1 {
@@ -148,11 +463,109 @@ view: all_data {
     sql: ${TABLE}.corp1 ;;
   }
 
+  dimension: target1 {
+    group_label: "Target/Victim Information"
+    label: "Specific Target/Victim 1"
+    type: string
+    sql: ${TABLE}.target1 ;;
+  }
+
+  dimension: natlty1 {
+    group_label: "Target/Victim Information"
+    type: number
+    sql: ${TABLE}.natlty1 ;;
+    hidden: yes
+  }
+
+  dimension: natlty1_txt {
+    group_label: "Target/Victim Information"
+    label: "Nationality of Target/Victim 1"
+    type: string
+    sql: ${TABLE}.natlty1_txt ;;
+  }
+
+  dimension: targtype2 {
+    group_label: "Target/Victim Information"
+    type: number
+    sql: ${TABLE}.targtype2 ;;
+    hidden: yes
+  }
+
+  dimension: targtype2_txt {
+    group_label: "Target/Victim Information"
+    label: "Target/Victim Type 2"
+    type: string
+    sql: ${TABLE}.targtype2_txt ;;
+  }
+
+  dimension: targsubtype2 {
+    group_label: "Target/Victim Information"
+    type: number
+    sql: ${TABLE}.targsubtype2 ;;
+    hidden: yes
+  }
+
+  dimension: targsubtype2_txt {
+    group_label: "Target/Victim Information"
+    label: "Target/Victim Subtype 2"
+    type: string
+    sql: ${TABLE}.targsubtype2_txt ;;
+  }
+
   dimension: corp2 {
     group_label: "Target/Victim Information"
     label: "Name of Entity 2"
     type: string
     sql: ${TABLE}.corp2 ;;
+  }
+
+  dimension: target2 {
+    group_label: "Target/Victim Information"
+    label: "Specific Target/Victim 2"
+    type: string
+    sql: ${TABLE}.target2 ;;
+  }
+
+  dimension: natlty2 {
+    group_label: "Target/Victim Information"
+    type: number
+    sql: ${TABLE}.natlty2 ;;
+    hidden: yes
+  }
+
+  dimension: natlty2_txt {
+    group_label: "Target/Victim Information"
+    label: "Nationality of Target/Victim 2"
+    type: string
+    sql: ${TABLE}.natlty2_txt ;;
+  }
+
+  dimension: targtype3 {
+    group_label: "Target/Victim Information"
+    type: string
+    sql: ${TABLE}.targtype3 ;;
+    hidden: yes
+  }
+
+  dimension: targtype3_txt {
+    group_label: "Target/Victim Information"
+    label: "Target/Victim Type 3"
+    type: string
+    sql: ${TABLE}.targtype3_txt ;;
+  }
+
+  dimension: targsubtype3 {
+    group_label: "Target/Victim Information"
+    type: string
+    sql: ${TABLE}.targsubtype3 ;;
+    hidden: yes
+  }
+
+  dimension: targsubtype3_txt {
+    group_label: "Target/Victim Information"
+    label: "Target/Victim Subtype 3"
+    type: string
+    sql: ${TABLE}.targsubtype3_txt ;;
   }
 
   dimension: corp3 {
@@ -162,97 +575,34 @@ view: all_data {
     sql: ${TABLE}.corp3 ;;
   }
 
-  dimension: country {
-    group_label: "Incident Location"
-    label: "Country #Code"
-    type: number
-    sql: ${TABLE}.country ;;
-  }
-
-  dimension: country_txt {
-    group_label: "Incident Location"
-    label: "Country"
+  dimension: target3 {
+    group_label: "Target/Victim Information"
+    label: "Specific Target/Victim 3"
     type: string
-    sql: ${TABLE}.country_txt ;;
+    sql: ${TABLE}.target3 ;;
   }
 
-  dimension: crit1 {
-    group_label: "Incident Summary"
-    label: "Inclusion Criteria - POLITICAL, ECONOMIC, RELIGIOUS, OR SOCIAL GOAL"
-    type: number
-    sql: ${TABLE}.crit1 ;;
-  }
-
-  dimension: crit2 {
-    group_label: "Incident Summary"
-    label: "Inclusion Criteria -  INTENTION TO COERCE, INTIMIDATE OR PUBLICIZE TO LARGER
-AUDIENCE(S)"
-    type: number
-    sql: ${TABLE}.crit2 ;;
-  }
-
-  dimension: crit3 {
-    group_label: "Incident Summary"
-    label: "Inclusion Criteria -  OUTSIDE INTERNATIONAL HUMANITARIAN LAW"
-    type: number
-    sql: ${TABLE}.crit3 ;;
-  }
-
-  dimension: dbsource {
-    group_label: "Additional Information and Sources"
-    label: "Data Collection"
+  dimension: natlty3 {
+    group_label: "Target/Victim Information"
     type: string
-    sql: ${TABLE}.dbsource ;;
+    sql: ${TABLE}.natlty3 ;;
+    hidden: yes
   }
 
-  dimension: divert {
-    group_label: "Casualties and Consequences"
-    label: "Country That Kidnappers/Hijackers Diverted To"
+  dimension: natlty3_txt {
+    group_label: "Target/Victim Information"
+    label: "Nationality of Target/Victim 3"
     type: string
-    sql: ${TABLE}.divert ;;
+    sql: ${TABLE}.natlty3_txt ;;
   }
 
-  dimension: doubtterr {
-    group_label: "Incident Information"
-    label: "Doubt Terrorism Proper?"
-    type: number
-    sql: ${TABLE}.doubtterr ;;
-  }
-
-  dimension: eventid {
-    group_label: "GTD ID and Date"
-    label: "GTD ID"
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.eventid ;;
-  }
-
-  dimension: extended {
-    group_label: "GTD ID and Date"
-    label: "Extended Incident?"
-    type: number
-    sql: ${TABLE}.extended ;;
-  }
+## VII. Perpetrator Information
 
   dimension: gname {
     group_label: "Perpetrator Information"
     label: "Perpetrator Group Name"
     type: string
     sql: ${TABLE}.gname ;;
-  }
-
-  dimension: gname2 {
-    group_label: "Perpetrator Information"
-    label: "Second Perpetrator Group Name"
-    type: string
-    sql: ${TABLE}.gname2 ;;
-  }
-
-  dimension: gname3 {
-    group_label: "Perpetrator Information"
-    label: "Third Perpetrator Group Name"
-    type: string
-    sql: ${TABLE}.gname3 ;;
   }
 
   dimension: gsubname {
@@ -262,11 +612,25 @@ AUDIENCE(S)"
     sql: ${TABLE}.gsubname ;;
   }
 
+  dimension: gname2 {
+    group_label: "Perpetrator Information"
+    label: "Second Perpetrator Group Name"
+    type: string
+    sql: ${TABLE}.gname2 ;;
+  }
+
   dimension: gsubname2 {
     group_label: "Perpetrator Information"
     label: "Second Perpetrator Sub-Group Name"
     type: string
     sql: ${TABLE}.gsubname2 ;;
+  }
+
+  dimension: gname3 {
+    group_label: "Perpetrator Information"
+    label: "Third Perpetrator Group Name"
+    type: string
+    sql: ${TABLE}.gname3 ;;
   }
 
   dimension: gsubname3 {
@@ -297,35 +661,6 @@ AUDIENCE(S)"
     sql: ${TABLE}.guncertain3 ;;
   }
 
-  dimension: hostkidoutcome {
-    group_label: "Casualties and Consequences"
-    type: number
-    sql: ${TABLE}.hostkidoutcome ;;
-  }
-
-  dimension: hostkidoutcome_txt {
-    group_label: "Casualties and Consequences"
-    label: "Kidnapping/Hostage Outcome"
-    type: string
-    sql: ${TABLE}.hostkidoutcome_txt ;;
-  }
-
-  dimension: iday {
-    group_label: "GTD ID and Date"
-    label: "Day"
-    type: number
-    value_format: "*0#"
-    sql: ${TABLE}.iday ;;
-  }
-
-  dimension: imonth {
-    group_label: "GTD ID and Date"
-    label: "Month"
-    type: number
-    value_format: "*0#"
-    sql: ${TABLE}.imonth ;;
-  }
-
   dimension: individual {
     group_label: "Perpetrator Information"
     label: "Unaffiliated Individual(s)"
@@ -333,89 +668,88 @@ AUDIENCE(S)"
     sql: ${TABLE}.individual ;;
   }
 
-  dimension: int_any {
-    group_label: "Additional Information and Sources"
-    label: "International- Any of the above"
+  dimension: nperps {
+    group_label: "Perpetrator Information"
+    label: "Number of Perpetrators"
     type: number
-    sql: ${TABLE}.INT_ANY ;;
+    sql: ${TABLE}.nperps ;;
   }
 
-  dimension: int_ideo {
-    group_label: "Additional Information and Sources"
-    label: "International- Ideological"
+  dimension: nperpcap {
+    group_label: "Perpetrator Information"
+    label: "Number of Perpetrators Captured"
     type: number
-    value_format_name: id
-    sql: ${TABLE}.INT_IDEO ;;
+    sql: ${TABLE}.nperpcap ;;
   }
 
-  dimension: int_log {
-    group_label: "Additional Information and Sources"
-    label: "International- Logistical"
+  dimension: claimed {
+    group_label: "Perpetrator Information"
+    label: "First Group Claim of Responsibility?"
     type: number
-    sql: ${TABLE}.INT_LOG ;;
+    sql: ${TABLE}.claimed ;;
   }
 
-  dimension: int_misc {
-    group_label: "Additional Information and Sources"
-    label: "International- Miscellaneous"
+  dimension: claimmode {
+    group_label: "Perpetrator Information"
     type: number
-    sql: ${TABLE}.INT_MISC ;;
+    sql: ${TABLE}.claimmode ;;
+    hidden: yes
   }
 
-  dimension: ishostkid {
-    group_label: "Casualties and Consequences"
-    label: "Hostages or Kidnapping Victims"
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.ishostkid ;;
-  }
-
-#open bug regarding incorrect visualization for years in x-axis labels: https://github.com/looker/helltool/issues/19656
-  dimension: iyear {
-    group_label: "GTD ID and Date"
-    label: "Year"
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.iyear;;
-  }
-
-  dimension: incident_date{
-    group_label: "GTD ID and Date"
-    label: "Incident Date"
-    sql: CONCAT(CAST(${iyear} as string),"-",CAST(${imonth} as string),"-",CAST(${iday} as string));;
-  }
-
-  dimension: kidhijcountry {
-    group_label: "Casualties and Consequences"
-    label: "Country of Kidnapping/Hijacking Resolution"
+  dimension: claimmode_txt {
+    group_label: "Perpetrator Information"
+    label: "Mode for Claim of Responsibility"
     type: string
-    sql: ${TABLE}.kidhijcountry ;;
+    sql: ${TABLE}.claimmode_txt ;;
   }
 
-  dimension: latitude {
-    group_label: "Incident Location"
-    type: number
-    sql: ${TABLE}.latitude ;;
-  }
-
-  dimension: location {
-    group_label: "Incident Location"
-    label: "Location Details"
+  dimension: compclaim {
+    group_label: "Perpetrator Information"
+    label: "Competing Claims of Responsibility?"
     type: string
-    sql: ${TABLE}.location ;;
+    sql: ${TABLE}.compclaim ;;
   }
 
-  dimension: longitude {
-    group_label: "Incident Location"
+  dimension: claim2 {
+    group_label: "Perpetrator Information"
+    label: "Second Group Claim of Responsibility?"
     type: number
-    sql: ${TABLE}.longitude ;;
+    sql: ${TABLE}.claim2 ;;
   }
-  dimension: map_location {
-    group_label: "Incident Location"
-    label: "Map Location"
-    type: location
-    sql_latitude:${TABLE}.latitude  ;;
-    sql_longitude:${TABLE}.longitude ;;
+
+  dimension: claimmode2 {
+    group_label: "Perpetrator Information"
+    type: string
+    sql: ${TABLE}.claimmode2 ;;
+    hidden: yes
+  }
+
+  dimension: claimmode2_txt {
+    group_label: "Perpetrator Information"
+    label: "Second Mode for Claim of Responsibility"
+    type: string
+    sql: ${TABLE}.claimmode2_txt ;;
+  }
+
+  dimension: claim3 {
+    group_label: "Perpetrator Information"
+    label: "Third Group Claim of Responsibility?"
+    type: string
+    sql: ${TABLE}.claim3 ;;
+  }
+
+  dimension: claimmode3 {
+    group_label: "Perpetrator Information"
+    type: string
+    sql: ${TABLE}.claimmode3 ;;
+    hidden: yes
+  }
+
+  dimension: claimmode3_txt {
+    group_label: "Perpetrator Information"
+    label: "Third Mode for Claim of Responsibility"
+    type: string
+    sql: ${TABLE}.claimmode3_txt ;;
   }
 
   dimension: motive {
@@ -425,57 +759,91 @@ AUDIENCE(S)"
     sql: ${TABLE}.motive ;;
   }
 
-  dimension: multiple {
-    group_label: "Incident Summary"
-    label: "Part of Multiple Incident"
-    type: number
-    sql: ${TABLE}.multiple ;;
-  }
+## VIII. Casualties and Consequences
 
-  dimension: natlty1 {
-    group_label: "Target/Victim Information"
-    type: number
-    sql: ${TABLE}.natlty1 ;;
-  }
-
-  dimension: natlty1_txt {
-    group_label: "Target/Victim Information"
-    label: "Nationality of Target/Victim 1"
-    type: string
-    sql: ${TABLE}.natlty1_txt ;;
-  }
-
-  dimension: natlty2 {
-    group_label: "Target/Victim Information"
-    type: number
-    sql: ${TABLE}.natlty2 ;;
-  }
-
-  dimension: natlty2_txt {
-    group_label: "Target/Victim Information"
-    label: "Nationality of Target/Victim 2"
-    type: string
-    sql: ${TABLE}.natlty2_txt ;;
-  }
-
-  dimension: natlty3 {
-    group_label: "Target/Victim Information"
-    type: string
-    sql: ${TABLE}.natlty3 ;;
-  }
-
-  dimension: natlty3_txt {
-    group_label: "Target/Victim Information"
-    label: "Nationality of Target/Victim 3"
-    type: string
-    sql: ${TABLE}.natlty3_txt ;;
-  }
-
-  dimension: ndays {
+  dimension: nkill {
     group_label: "Casualties and Consequences"
-    label: "Days of Kidnapping / Hostage Incident"
+    label: "Total Number of Fatalities"
     type: number
-    sql: ${TABLE}.ndays ;;
+    sql: ${TABLE}.nkill ;;
+  }
+
+  dimension: nkillus {
+    group_label: "Casualties and Consequences"
+    label: "Number of US Fatalities"
+    type: number
+    sql: ${TABLE}.nkillus ;;
+  }
+
+  dimension: nkillter {
+    group_label: "Casualties and Consequences"
+    label: "Number of Perpetrator Fatalities"
+    type: number
+    sql: ${TABLE}.nkillter ;;
+  }
+
+  dimension: nwound {
+    group_label: "Casualties and Consequences"
+    label: "Total Number of Injured"
+    type: number
+    sql: ${TABLE}.nwound ;;
+  }
+
+  dimension: nwoundus {
+    group_label: "Casualties and Consequences"
+    label: "Number of U.S. Injured"
+    type: number
+    sql: ${TABLE}.nwoundus ;;
+  }
+
+  dimension: nwoundte {
+    group_label: "Casualties and Consequences"
+    label: "Number of Perpetrators Injured"
+    type: number
+    sql: ${TABLE}.nwoundte ;;
+  }
+
+  dimension: property {
+    group_label: "Casualties and Consequences"
+    label: "Property Damage"
+    type: number
+    sql: ${TABLE}.property ;;
+  }
+
+  dimension: propextent {
+    group_label: "Casualties and Consequences"
+    type: number
+    sql: ${TABLE}.propextent ;;
+    hidden: yes
+  }
+
+  dimension: propextent_txt {
+    group_label: "Casualties and Consequences"
+    label: "Extent of Property Damage"
+    type: string
+    sql: ${TABLE}.propextent_txt ;;
+  }
+
+  dimension: propvalue {
+    group_label: "Casualties and Consequences"
+    label: "Value of Property Damage (in USD)"
+    type: number
+    sql: ${TABLE}.propvalue ;;
+  }
+
+  dimension: propcomment {
+    group_label: "Casualties and Consequences"
+    label: "Property Damage Comments"
+    type: string
+    sql: ${TABLE}.propcomment ;;
+  }
+
+  dimension: ishostkid {
+    group_label: "Casualties and Consequences"
+    label: "Hostages or Kidnapping Victims"
+    type: number
+    value_format_name: id
+    sql: ${TABLE}.ishostkid ;;
   }
 
   dimension: nhostkid {
@@ -500,108 +868,25 @@ AUDIENCE(S)"
     sql: ${TABLE}.nhours ;;
   }
 
-  dimension: nkill {
+  dimension: ndays {
     group_label: "Casualties and Consequences"
-    label: "Total Number of Fatalities"
+    label: "Days of Kidnapping / Hostage Incident"
     type: number
-    sql: ${TABLE}.nkill ;;
+    sql: ${TABLE}.ndays ;;
   }
 
-  dimension: nkillter {
+  dimension: divert {
     group_label: "Casualties and Consequences"
-    label: "Number of Perpetrator Fatalities"
-    type: number
-    sql: ${TABLE}.nkillter ;;
-  }
-
-  dimension: nkillus {
-    group_label: "Casualties and Consequences"
-    label: "Number of US Fatalities"
-    type: number
-    sql: ${TABLE}.nkillus ;;
-  }
-
-  dimension: nperpcap {
-    group_label: "Perpetrator Information"
-    label: "Number of Perpetrators Captured"
-    type: number
-    sql: ${TABLE}.nperpcap ;;
-  }
-
-  dimension: nperps {
-    group_label: "Perpetrator Information"
-    label: "Number of Perpetrators"
-    type: number
-    sql: ${TABLE}.nperps ;;
-  }
-
-  dimension: nreleased {
-    group_label: "Casualties and Consequences"
-    label: "Number Released/Escaped/Rescued"
-    type: number
-    sql: ${TABLE}.nreleased ;;
-  }
-
-  dimension: nwound {
-    group_label: "Casualties and Consequences"
-    label: "Total Number of Injured"
-    type: number
-    sql: ${TABLE}.nwound ;;
-  }
-
-  dimension: nwoundte {
-    group_label: "Casualties and Consequences"
-    label: "Number of Perpetrators Injured"
-    type: number
-    sql: ${TABLE}.nwoundte ;;
-  }
-
-  dimension: nwoundus {
-    group_label: "Casualties and Consequences"
-    label: "Number of U.S. Injured"
-    type: number
-    sql: ${TABLE}.nwoundus ;;
-  }
-
-  dimension: propcomment {
-    group_label: "Casualties and Consequences"
-    label: "Property Damage Comments"
+    label: "Country That Kidnappers/Hijackers Diverted To"
     type: string
-    sql: ${TABLE}.propcomment ;;
+    sql: ${TABLE}.divert ;;
   }
 
-  dimension: property {
+  dimension: kidhijcountry {
     group_label: "Casualties and Consequences"
-    label: "Property Damage"
-    type: number
-    sql: ${TABLE}.property ;;
-  }
-
-  dimension: propextent {
-    group_label: "Casualties and Consequences"
-    type: number
-    sql: ${TABLE}.propextent ;;
-  }
-
-  dimension: propextent_txt {
-    group_label: "Casualties and Consequences"
-    label: "Extent of Property Damage"
+    label: "Country of Kidnapping/Hijacking Resolution"
     type: string
-    sql: ${TABLE}.propextent_txt ;;
-  }
-
-  dimension: propvalue {
-    group_label: "Casualties and Consequences"
-    label: "Value of Property Damage (in USD)"
-    type: number
-    sql: ${TABLE}.propvalue ;;
-  }
-
-  dimension: provstate {
-    group_label: "Incident Location"
-    label: "Province / Administrative Region /State"
-    type: string
-    sql: ${TABLE}.provstate ;;
+    sql: ${TABLE}.kidhijcountry ;;
   }
 
   dimension: ransom {
@@ -625,13 +910,6 @@ AUDIENCE(S)"
     sql: ${TABLE}.ransomamtus ;;
   }
 
-  dimension: ransomnote {
-    group_label: "Casualties and Consequences"
-    label: "Ransom Notes"
-    type: string
-    sql: ${TABLE}.ransomnote ;;
-  }
-
   dimension: ransompaid {
     group_label: "Casualties and Consequences"
     label: "Total Ransom Amount Paid"
@@ -647,41 +925,69 @@ AUDIENCE(S)"
     sql: ${TABLE}.ransompaidus ;;
   }
 
-  dimension: region {
-    group_label: "Incident Location"
+  dimension: ransomnote {
+    group_label: "Casualties and Consequences"
+    label: "Ransom Notes"
+    type: string
+    sql: ${TABLE}.ransomnote ;;
+  }
+
+  dimension: hostkidoutcome {
+    group_label: "Casualties and Consequences"
     type: number
-    sql: ${TABLE}.region ;;
+    sql: ${TABLE}.hostkidoutcome ;;
   }
 
-  dimension: region_txt {
-    group_label: "Incident Location"
-    label: "Region"
+  dimension: hostkidoutcome_txt {
+    group_label: "Casualties and Consequences"
+    label: "Kidnapping/Hostage Outcome"
     type: string
-    sql: ${TABLE}.region_txt ;;
+    sql: ${TABLE}.hostkidoutcome_txt ;;
   }
 
-  dimension: related {
-    group_label: "Incident Summary"
-    label: "Related Incidents"
+  dimension: nreleased {
+    group_label: "Casualties and Consequences"
+    label: "Number Released/Escaped/Rescued"
+    type: number
+    sql: ${TABLE}.nreleased ;;
+  }
+
+## IX. Additional Information and Sources
+
+  dimension: addnotes {
+    group_label: "Additional Information and Sources"
+    label: "Additional Notes"
     type: string
-    sql: ${TABLE}.related ;;
+    sql: ${TABLE}.addnotes ;;
   }
 
-  dimension_group: resolution {
-    group_label: "GTD ID and Date"
-    label: "Date of Extended Incident Resolution"
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.resolution ;;
+  dimension: int_log {
+    group_label: "Additional Information and Sources"
+    label: "International- Logistical"
+    type: number
+    sql: ${TABLE}.INT_LOG ;;
+  }
+
+  dimension: int_ideo {
+    group_label: "Additional Information and Sources"
+    label: "International- Ideological"
+    type: number
+    value_format_name: id
+    sql: ${TABLE}.INT_IDEO ;;
+  }
+
+  dimension: int_misc {
+    group_label: "Additional Information and Sources"
+    label: "International- Miscellaneous"
+    type: number
+    sql: ${TABLE}.INT_MISC ;;
+  }
+
+  dimension: int_any {
+    group_label: "Additional Information and Sources"
+    label: "International- Any of the above"
+    type: number
+    sql: ${TABLE}.INT_ANY ;;
   }
 
   dimension: scite1 {
@@ -705,265 +1011,21 @@ AUDIENCE(S)"
     sql: ${TABLE}.scite3 ;;
   }
 
-  dimension: specificity {
-    group_label: "Incident Location"
-    label: "Geocoding Specificity"
-    type: number
-    sql: ${TABLE}.specificity ;;
-  }
-
-  dimension: success {
-    group_label: "Attack Information"
-    label: "Success"
-    case: {
-      when: {
-        sql:  ${TABLE}.success = 1  ;;
-        label: "Yes"
-      }
-      else: "No"
-
-    }
-  }
-
-  dimension: suicide {
-    group_label: "Attack Information"
-    label: "Suicide Attack"
-    case: {
-      when: {
-        sql:  ${TABLE}.suicide = 1  ;;
-        label: "Yes"
-      }
-      else: "No"
-
-    }
-  }
-
-  dimension: summary {
-    group_label: "Incident Information"
-    label: "Incident Summary"
+  dimension: dbsource {
+    group_label: "Additional Information and Sources"
+    label: "Data Collection"
     type: string
-    sql: ${TABLE}.summary ;;
+    sql: ${TABLE}.dbsource ;;
   }
 
-  dimension: target1 {
-    group_label: "Target/Victim Information"
-    label: "Specific Target/Victim 1"
-    type: string
-    sql: ${TABLE}.target1 ;;
-  }
 
-  dimension: target2 {
-    group_label: "Target/Victim Information"
-    label: "Specific Target/Victim 2"
-    type: string
-    sql: ${TABLE}.target2 ;;
-  }
-
-  dimension: target3 {
-    group_label: "Target/Victim Information"
-    label: "Specific Target/Victim 3"
-    type: string
-    sql: ${TABLE}.target3 ;;
-  }
-
-  dimension: targsubtype1 {
-    group_label: "Target/Victim Information"
-    type: number
-    sql: ${TABLE}.targsubtype1 ;;
-  }
-
-  dimension: targsubtype1_txt {
-    group_label: "Target/Victim Information"
-    label: "Target/Victim Subtype 1"
-    type: string
-    sql: ${TABLE}.targsubtype1_txt ;;
-  }
-
-  dimension: targsubtype2 {
-    group_label: "Target/Victim Information"
-    type: number
-    sql: ${TABLE}.targsubtype2 ;;
-  }
-
-  dimension: targsubtype2_txt {
-    group_label: "Target/Victim Information"
-    label: "Target/Victim Subtype 2"
-    type: string
-    sql: ${TABLE}.targsubtype2_txt ;;
-  }
-
-  dimension: targsubtype3 {
-    group_label: "Target/Victim Information"
-    type: string
-    sql: ${TABLE}.targsubtype3 ;;
-  }
-
-  dimension: targsubtype3_txt {
-    group_label: "Target/Victim Information"
-    label: "Target/Victim Subtype 3"
-    type: string
-    sql: ${TABLE}.targsubtype3_txt ;;
-  }
-
-  dimension: targtype1 {
-    group_label: "Target/Victim Information"
-    type: number
-    sql: ${TABLE}.targtype1 ;;
-  }
-
-  dimension: targtype1_txt {
-    group_label: "Target/Victim Information"
-    label: "Target/Victim Type 1"
-    type: string
-    sql: ${TABLE}.targtype1_txt ;;
-  }
-
-  dimension: targtype2 {
-    group_label: "Target/Victim Information"
-    type: number
-    sql: ${TABLE}.targtype2 ;;
-  }
-
-  dimension: targtype2_txt {
-    group_label: "Target/Victim Information"
-    label: "Target/Victim Type 2"
-    type: string
-    sql: ${TABLE}.targtype2_txt ;;
-  }
-
-  dimension: targtype3 {
-    group_label: "Target/Victim Information"
-    type: string
-    sql: ${TABLE}.targtype3 ;;
-  }
-
-  dimension: targtype3_txt {
-    group_label: "Target/Victim Information"
-    label: "Target/Victim Type 3"
-    type: string
-    sql: ${TABLE}.targtype3_txt ;;
-  }
-
-  dimension: vicinity {
-    group_label: "Incident Location"
-    label: "Vicinity"
-    type: number
-    sql: ${TABLE}.vicinity ;;
-  }
-
-  dimension: weapdetail {
-    group_label: "Weapon Information"
-    label: "Weapon Details"
-    type: string
-    sql: ${TABLE}.weapdetail ;;
-  }
-
-  dimension: weapsubtype1 {
-    group_label: "Weapon Information"
-    type: number
-    sql: ${TABLE}.weapsubtype1 ;;
-  }
-
-  dimension: weapsubtype1_txt {
-    group_label: "Weapon Information"
-    label: "First Weapon Sub-Type"
-    type: string
-    sql: ${TABLE}.weapsubtype1_txt ;;
-  }
-
-  dimension: weapsubtype2 {
-    group_label: "Weapon Information"
-    type: number
-    sql: ${TABLE}.weapsubtype2 ;;
-  }
-
-  dimension: weapsubtype2_txt {
-    group_label: "Weapon Information"
-    label: "Second Weapon Sub-Type"
-    type: string
-    sql: ${TABLE}.weapsubtype2_txt ;;
-  }
-
-  dimension: weapsubtype3 {
-    group_label: "Weapon Information"
-    type: number
-    sql: ${TABLE}.weapsubtype3 ;;
-  }
-
-  dimension: weapsubtype3_txt {
-    group_label: "Weapon Information"
-    label: "Third Weapon Sub-Type"
-    type: string
-    sql: ${TABLE}.weapsubtype3_txt ;;
-  }
-
-  dimension: weapsubtype4 {
-    group_label: "Weapon Information"
-    type: string
-    sql: ${TABLE}.weapsubtype4 ;;
-  }
-
-  dimension: weapsubtype4_txt {
-    group_label: "Weapon Information"
-    label: "Fourth Weapon Sub-Type"
-    type: string
-    sql: ${TABLE}.weapsubtype4_txt ;;
-  }
-
-  dimension: weaptype1 {
-    group_label: "Weapon Information"
-    type: number
-    sql: ${TABLE}.weaptype1 ;;
-  }
-
-  dimension: weaptype1_txt {
-    group_label: "Weapon Information"
-    label: "First Weapon Type"
-    type: string
-    sql: ${TABLE}.weaptype1_txt ;;
-  }
-
-  dimension: weaptype2 {
-    group_label: "Weapon Information"
-    type: number
-    sql: ${TABLE}.weaptype2 ;;
-  }
-
-  dimension: weaptype2_txt {
-    group_label: "Weapon Information"
-    label: "Second Weapon Type"
-    type: string
-    sql: ${TABLE}.weaptype2_txt ;;
-  }
-
-  dimension: weaptype3 {
-    group_label: "Weapon Information"
-    type: string
-    sql: ${TABLE}.weaptype3 ;;
-  }
-
-  dimension: weaptype3_txt {
-    group_label: "Weapon Information"
-    label: "Third Weapon Type"
-    type: string
-    sql: ${TABLE}.weaptype3_txt ;;
-  }
-
-  dimension: weaptype4 {
-    group_label: "Weapon Information"
-    type: string
-    sql: ${TABLE}.weaptype4 ;;
-  }
-
-  dimension: weaptype4_txt {
-    group_label: "Weapon Information"
-    label: "Fourth Weapon Type"
-    type: string
-    sql: ${TABLE}.weaptype4_txt ;;
-  }
+###### Measures and Stuff
 
   measure: count {
     type: count
-    drill_fields: [gname]
+  }
+
+  measure: sum {
+    type: sum
   }
 }

@@ -8,3 +8,4 @@
   elements:
     - name: hello_world
       type: looker_column
+      explore: all_data
