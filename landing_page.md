@@ -1,5 +1,5 @@
 # Terrorism in South Asia
-Click on the [_looker_](https://dcl.looker.com/projects/jonathan_thesis_south_asia) logo in the upper left corner at any time to return to this page
+Click on the [_looker_](https://dcl.dev.looker.com/projects/jonathan_thesis_south_asia) logo in the upper left corner at any time to return to this page
 
 ---
 

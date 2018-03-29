@@ -9,6 +9,7 @@ view: terrorist_organizations {
     WHERE all_data.region_txt="South Asia"
     GROUP BY 1,2,3
     ;;
+  persist_for: "500 hours"
   }
 
 dimension: gname {
@@ -34,12 +35,17 @@ dimension: motive {
   sql: ${TABLE}.motive ;;
 }
 
+###### Measures and Stuff
+
 measure: count {
   type: count
 }
 measure: distinct_count {
   type: count_distinct
   sql: ${TABLE}.gname ;;
+}
+measure: sum {
+  type: sum
 }
 
 }

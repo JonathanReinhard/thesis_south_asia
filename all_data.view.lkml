@@ -47,8 +47,9 @@ view: all_data {
     sql: CONCAT(CAST(${iyear} as string),"-",CAST(${imonth} as string),"-",CAST(IF(${iday} = 0, 1, ${iday}) as string));;
     hidden: yes
   }
-  dimension_group: date {
-    group_label: "Incident Date"
+  dimension_group: time {
+    group_label: "Incident Time"
+    description: "Date of the Incident if known"
     type: time
     sql: CAST(DATE(all_data.iyear,IF(all_data.imonth = 0, 1, all_data.imonth),IF(all_data.iday = 0, 1, all_data.iday)) as TIMESTAMP);;
     timeframes: [raw,hour,date,day_of_month,month_name, day_of_week,day_of_week_index,week,month,year]
@@ -57,6 +58,7 @@ view: all_data {
   dimension: approxdate {
     group_label: "GTD ID and Date"
     label: "Approximate Date"
+    description: "The most likely date that the Incident took place"
     type: string
     sql: ${TABLE}.approxdate ;;
   }
@@ -64,13 +66,21 @@ view: all_data {
   dimension: extended {
     group_label: "GTD ID and Date"
     label: "Extended Incident?"
-    type: number
-    sql: ${TABLE}.extended ;;
+    description: "Let's you know if the Incident lasted for more than 24 hours"
+    case: {
+      when: {
+        sql: ${TABLE}.extended = 1 ;;
+          label: "Yes"
+      }
+      else: "No"
+    }
+
   }
 
   dimension_group: resolution {
     group_label: "GTD ID and Date"
     label: "Date of Extended Incident Resolution"
+    description: "Let's you know at what date an extended Incident was resolved"
     type: time
     timeframes: [
       raw,
@@ -85,11 +95,23 @@ view: all_data {
     sql: ${TABLE}.resolution ;;
   }
 
+  dimension: Decade {
+    group_label: "GTD ID and Date"
+    type: tier
+    tiers: [1970, 1980, 1990, 2000, 2010, 2020]
+    style: integer
+    sql: ${TABLE}.iyear ;;
+    value_format: "0"
+  }
+
+
 ## II. Incident Information
 
   dimension: summary {
-    group_label: "Incident Information"
+    group_label: "Incident Summary"
     label: "Incident Summary"
+    description: "A short summary noting the 'when, where, who, what, how,
+and why'"
     type: string
     sql: ${TABLE}.summary ;;
   }
@@ -97,41 +119,64 @@ view: all_data {
   dimension: crit1 {
     group_label: "Incident Summary"
     label: "Inclusion Criteria - POLITICAL, ECONOMIC, RELIGIOUS, OR SOCIAL GOAL"
-    type: number
-    sql: ${TABLE}.crit1 ;;
+    case: {
+      when: {
+        sql:  ${TABLE}.crit1 = 1  ;;
+        label: "Yes"
+      }
+      else: "No"
+    }
   }
 
   dimension: crit2 {
     group_label: "Incident Summary"
     label: "Inclusion Criteria -  INTENTION TO COERCE, INTIMIDATE OR PUBLICIZE TO LARGER
     AUDIENCE(S)"
-    type: number
-    sql: ${TABLE}.crit2 ;;
+    case: {
+      when: {
+        sql:  ${TABLE}.crit2 = 1  ;;
+        label: "Yes"
+      }
+      else: "No"
+    }
   }
 
   dimension: crit3 {
     group_label: "Incident Summary"
     label: "Inclusion Criteria -  OUTSIDE INTERNATIONAL HUMANITARIAN LAW"
-    type: number
-    sql: ${TABLE}.crit3 ;;
+    case: {
+      when: {
+        sql:  ${TABLE}.crit3 = 1  ;;
+        label: "Yes"
+      }
+      else: "No"
+    }
   }
 
   dimension: doubtterr {
     group_label: "Incident Information"
     label: "Doubt Terrorism Proper?"
-    type: number
-    sql: ${TABLE}.doubtterr ;;
+    description: "Indicates whether there is doubt regarding the categorization of the incident as an act of terror "
+    case: {
+      when: {
+        sql:  ${TABLE}.doubtterr = 1  ;;
+        label: "Yes"
+      }
+      else: "No"
+    }
   }
 
   dimension: alternative {
     group_label: "Incident Summary"
     type: number
     sql: ${TABLE}.alternative ;;
+    hidden: yes
   }
 
   dimension: alternative_txt {
     group_label: "Incident Summary"
     label: "Alternative Designation"
+    description: "Is only relevant if the Incident is doubted to be an actual terrorist attack"
     type: string
     sql: ${TABLE}.alternative_txt ;;
   }
@@ -139,13 +184,20 @@ view: all_data {
   dimension: multiple {
     group_label: "Incident Summary"
     label: "Part of Multiple Incident"
-    type: number
-    sql: ${TABLE}.multiple ;;
+    description: "Will tell you if there are related incidents"
+    case: {
+      when: {
+        sql: ${TABLE}.multiple = 1 ;;
+        label: "Yes"
+      }
+      else: "No"
+    }
   }
 
   dimension: related {
     group_label: "Incident Summary"
     label: "Related Incidents"
+    description: "Displayes the GTD ID if there have been related incidents"
     type: string
     sql: ${TABLE}.related ;;
   }
@@ -165,6 +217,7 @@ view: all_data {
     label: "Country"
     type: string
     sql: ${TABLE}.country_txt ;;
+    drill_fields: [time_year,gname,city]
   }
 
   dimension: region {
@@ -179,6 +232,7 @@ view: all_data {
     label: "Region"
     type: string
     sql: ${TABLE}.region_txt ;;
+    hidden: yes
   }
 
   dimension: provstate {
@@ -198,35 +252,46 @@ view: all_data {
   dimension: vicinity {
     group_label: "Incident Location"
     label: "Vicinity"
-    type: number
-    sql: ${TABLE}.vicinity ;;
+    description: "Let's you know whether the attack happened in the immediate vicinity of a city"
+    case: {
+      when: {
+        sql: ${TABLE}.vicinity = 1 ;;
+        label: "Yes"
+      }
+      else: "No"
+    }
+
   }
 
 
   dimension: location {
     group_label: "Incident Location"
     label: "Location Details"
+    description: "Provides additional information about the location if available"
     type: string
     sql: ${TABLE}.location ;;
+    hidden: yes
   }
 
   dimension: latitude {
     group_label: "Incident Location"
     type: number
     sql: ${TABLE}.latitude ;;
+    hidden: yes
   }
 
   dimension: longitude {
     group_label: "Incident Location"
     type: number
     sql: ${TABLE}.longitude ;;
+    hidden: yes
   }
   dimension: map_location {
     group_label: "Incident Location"
     label: "Map Location"
     type: location
-    sql_latitude:${TABLE}.latitude  ;;
-    sql_longitude:${TABLE}.longitude ;;
+    sql_latitude:ROUND(${TABLE}.latitude,2)  ;;
+    sql_longitude:ROUND(${TABLE}.longitude,2) ;;
   }
 
   dimension: specificity {
@@ -234,6 +299,7 @@ view: all_data {
     label: "Geocoding Specificity"
     type: number
     sql: ${TABLE}.specificity ;;
+    hidden: yes
   }
 
 ## IV. Attack Information
