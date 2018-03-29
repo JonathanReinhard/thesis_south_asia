@@ -98,7 +98,7 @@ view: all_data {
   dimension: Decade {
     group_label: "GTD ID and Date"
     type: tier
-    tiers: [1970, 1980, 1990, 2000, 2010, 2020]
+    tiers: [1970, 1980, 1990, 2000, 2010]
     style: integer
     sql: ${TABLE}.iyear ;;
     value_format: "0"
