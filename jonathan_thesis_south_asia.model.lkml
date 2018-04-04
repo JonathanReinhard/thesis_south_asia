@@ -19,3 +19,7 @@ explore: all_data {
 }
 
 explore: terrorist_organizations {}
+
+map_layer: districts {
+  file: "Region.json"
+}

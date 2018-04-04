@@ -2,6 +2,12 @@ view: all_data {
   label: "South Asia Data Collection"
   sql_table_name: south_asia.all_data ;;
 
+dimension: district {
+  type: string
+  map_layer_name: districts
+  sql: ${TABLE}.city ;;
+}
+
 
 ## I. GTD ID and Date (sorting this view based on the Code Book Categories)
 
@@ -669,6 +675,17 @@ and why'"
     label: "Perpetrator Group Name"
     type: string
     sql: ${TABLE}.gname ;;
+
+    link: {
+      label: "Want to know more about {{ value }}? Google it!"
+      url: "http://www.google.com/search?q={{ value }}"
+      icon_url: "http://google.com/favicon.ico"
+    }
+    link: {
+      label: "Want to know more about {{ value }}? Wiki to the rescue!"
+      url: "https://en.wikipedia.org/w/index.php?search={{ value }}"
+      icon_url: "https://de.wikipedia.org/favicon.ico"
+    }
   }
 
   dimension: gsubname {

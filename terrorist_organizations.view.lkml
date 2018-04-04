@@ -2,13 +2,13 @@ view: terrorist_organizations {
   label: "Terrorist Organizations"
   derived_table: {
     sql: SELECT
-    all_data.gname AS gname,
-    all_data.motive As motive,
-    all_data.claimed AS claimed
+    DISTINCT(all_data.gname) AS gname,
+    sum(all_data.nkill) AS fatalities,
+    max(all_data.nkill) AS highest_fatalities,
+    min(all_data.nkill) AS lowest_fatalities
     FROM all_data
     WHERE all_data.region_txt="South Asia"
-    GROUP BY 1,2,3
-    ;;
+    GROUP BY 1;;
   persist_for: "500 hours"
   }
 
@@ -29,10 +29,20 @@ dimension: gname {
   }
 }
 
-dimension: motive {
-  label: "Motive"
-  type: string
-  sql: ${TABLE}.motive ;;
+dimension: fatalities {
+  label: "Fatalities"
+  type: number
+  sql: ${TABLE}.fatalities ;;
+}
+
+dimension: highest {
+  type: number
+  sql: ${TABLE}.highest_fatalities ;;
+}
+
+dimension: lowest {
+  type: number
+  sql: ${TABLE}.lowest_fatalities ;;
 }
 
 ###### Measures and Stuff
