@@ -2,20 +2,13 @@ view: all_data {
   label: "South Asia Data Collection"
   sql_table_name: south_asia.all_data ;;
 
-dimension: district {
-  type: string
-  map_layer_name: districts
-  sql: ${TABLE}.city ;;
-}
-
-
 ## I. GTD ID and Date (sorting this view based on the Code Book Categories)
 
   dimension: eventid {
     group_label: "GTD ID and Date"
     label: "GTD ID"
     description: "The Unique ID that the Incident has in the GTD"
-    type: number
+    primary_key: yes
     value_format_name: id
     sql: ${TABLE}.eventid ;;
   }
@@ -306,6 +299,70 @@ and why'"
     type: number
     sql: ${TABLE}.specificity ;;
     hidden: yes
+  }
+
+  dimension: district_ind {
+    group_label: "Country specific district"
+    label: "India"
+    type: string
+    map_layer_name:  districts_ind
+    sql: ${TABLE}.city ;;
+  }
+
+  dimension: district_pak {
+    group_label: "Country specific district"
+    label: "Pakistan"
+    type: string
+    map_layer_name:  districts_pak
+    sql: ${TABLE}.city ;;
+  }
+
+  dimension: district_sri {
+    group_label: "Country specific district"
+    label: "Sri Lanka"
+    type: string
+    map_layer_name:  districts_sri
+    sql: ${TABLE}.city ;;
+  }
+
+  dimension: district_nep {
+    group_label: "Country specific district"
+    label: "Nepal"
+    type: string
+    map_layer_name:  districts_nep
+    sql: ${TABLE}.city ;;
+  }
+
+  dimension: district_bhu {
+    group_label: "Country specific district"
+    label: "Bhutan"
+    type: string
+    map_layer_name:  districts_bhu
+    sql: ${TABLE}.city ;;
+  }
+
+  dimension: district_afg {
+    group_label: "Country specific district"
+    label: "Afghanistan"
+    type: string
+    map_layer_name:  districts_afg
+    sql: ${TABLE}.city ;;
+  }
+
+  dimension: district_mal {
+    group_label: "Country specific district"
+    label: "Maldives"
+    type: string
+    map_layer_name:  districts_mal
+    sql: ${TABLE}.city ;;
+  }
+
+  dimension: district_bgd {
+    group_label: "Country specific district"
+    label: "Bangladesh"
+    type: string
+    map_layer_name:  districts_bgd
+    sql: ${TABLE}.city ;;
   }
 
 ## IV. Attack Information
@@ -675,6 +732,7 @@ and why'"
     label: "Perpetrator Group Name"
     type: string
     sql: ${TABLE}.gname ;;
+    html: <a href="/dashboards/94?Group= {{value}} "> {{ value}} </a> ;;
 
     link: {
       label: "Want to know more about {{ value }}? Google it!"

@@ -20,6 +20,28 @@ explore: all_data {
 
 explore: terrorist_organizations {}
 
-map_layer: districts {
-  file: "Region.json"
+map_layer: districts_ind {
+  file: "IND_adm.json"
+}
+
+map_layer: districts_pak {
+  file: "PAK_adm.json"
+}
+map_layer: districts_sri {
+  file: "LKA_adm.json"
+}
+map_layer: districts_nep {
+  file: "NPL_adm.json"
+}
+map_layer: districts_bhu {
+  file: "BTN_adm.json"
+}
+map_layer: districts_afg {
+  file: "AFG_adm.json"
+}
+map_layer: districts_mal {
+  file: "MDV_adm.json"
+}
+map_layer: districts_bgd {
+  file: "BGD_adm.json"
 }
