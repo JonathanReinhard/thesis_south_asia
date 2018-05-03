@@ -20,6 +20,8 @@ explore: all_data {
 
 explore: terrorist_organizations {}
 
+explore: incident_level {}
+
 map_layer: districts_ind {
   file: "IND_adm.json"
 }

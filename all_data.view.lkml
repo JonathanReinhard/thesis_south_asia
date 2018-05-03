@@ -217,6 +217,7 @@ and why'"
     type: string
     sql: ${TABLE}.country_txt ;;
     drill_fields: [time_year,gname,city]
+    html: <a href="https://dcl.dev.looker.com/dashboards/97?Country= {{value}} "> {{ value}} </a> ;;
   }
 
   dimension: region {
@@ -365,6 +366,7 @@ and why'"
     sql: ${TABLE}.city ;;
   }
 
+
 ## IV. Attack Information
 
   dimension: attacktype1 {
@@ -504,6 +506,7 @@ and why'"
     label: "Third Weapon Type"
     type: string
     sql: ${TABLE}.weaptype3_txt ;;
+    hidden: yes
   }
 
   dimension: weapsubtype3 {
@@ -518,6 +521,7 @@ and why'"
     label: "Third Weapon Sub-Type"
     type: string
     sql: ${TABLE}.weapsubtype3_txt ;;
+    hidden: yes
   }
 
   dimension: weaptype4 {
@@ -532,6 +536,7 @@ and why'"
     label: "Fourth Weapon Type"
     type: string
     sql: ${TABLE}.weaptype4_txt ;;
+    hidden: yes
   }
 
   dimension: weapsubtype4 {
@@ -546,6 +551,7 @@ and why'"
     label: "Fourth Weapon Sub-Type"
     type: string
     sql: ${TABLE}.weapsubtype4_txt ;;
+    hidden: yes
   }
 
   dimension: weapdetail {
@@ -1168,5 +1174,5 @@ and why'"
 
   measure: sum {
     type: sum
-  }
+    }
 }
