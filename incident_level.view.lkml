@@ -5,7 +5,13 @@ view: incident_level {
     SELECT
     all_data.eventid AS eventid,
     CAST(DATE(all_data.iyear,IF(all_data.imonth = 0, 1, all_data.imonth),IF(all_data.iday = 0, 1, all_data.iday)) as TIMESTAMP) AS time,
-    all_data.summary AS summary
+    all_data.summary AS summary,
+    all_data.crit1,
+    all_data.crit2,
+    all_data.doubtterr,
+    all_data.multiple,
+    all_data.alternative_txt,
+    all_data.related
    FROM all_data
     WHERE all_data.region_txt="South Asia"
    ;;
@@ -26,6 +32,61 @@ view: incident_level {
   dimension: summary {
     sql: ${TABLE}.summary ;;
   }
+
+  dimension: crit1 {
+        case: {
+          when: {
+            sql:  ${TABLE}.crit1 = 1  ;;
+            label: "Yes"
+          }
+          else: "No"
+        }
+  }
+
+  dimension: crit2 {
+        case: {
+          when: {
+            sql:  ${TABLE}.crit2 = 1  ;;
+            label: "Yes"
+          }
+          else: "No"
+        }
+  }
+
+  dimension: doubtterr {
+    case: {
+      when: {
+        sql:  ${TABLE}.doubtterr = 1  ;;
+        label: "Yes"
+      }
+      else: "No"
+    }
+  }
+
+  dimension: alternative_txt {
+    sql: ${TABLE}.alternative_txt ;;
+  }
+
+  dimension: related {
+    sql: ${TABLE}.related ;;
+  }
+
+  dimension: multiple {
+    case: {
+      when: {
+        sql: ${TABLE}.multiple = 1 ;;
+        label: "Yes"
+      }
+      else: "No"
+    }
+  }
+
+  measure: count {
+    type: count
+  }
+
+  measure: sum {}
+
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
   #
