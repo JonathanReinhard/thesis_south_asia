@@ -18,10 +18,6 @@ explore: all_data {
   sql_always_where: ${region_txt}="South Asia" ;;
 }
 
-explore: terrorist_organizations {}
-
-explore: incident_level {}
-
 map_layer: districts_ind {
   file: "IND_adm.json"
 }
