@@ -5,7 +5,7 @@ label: "Terrorism in South Asia"
 include: "*.view"
 
 # include all the dashboards
-include: "*.dashboard"
+#include: "*.dashboard"
 
 datagroup: jonathan_thesis_south_asia_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
