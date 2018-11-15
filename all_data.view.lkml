@@ -1136,6 +1136,7 @@ and why'"
     group_label: "Additional Information and Sources"
     label: "Additional Notes"
     type: string
+    #html: <p style="font-size:10px"> {{value}} </p> ;;
     sql: ${TABLE}.addnotes ;;
   }
 
@@ -1225,6 +1226,12 @@ and why'"
     type: sum
     drill_fields: [Measure_Drills*]
     sql: ${TABLE}.nkill ;;
+  }
+
+  measure: average {
+    type: average
+    sql: ${TABLE}.nkill ;;
+    value_format_name: decimal_0
   }
 
 
