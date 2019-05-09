@@ -1,4 +1,4 @@
-connection: "jonathan_south-asia_terrorism"
+connection: "thesis_jiro_global_terrorism"
 label: "Terrorism in South Asia"
 
 # include all the views
