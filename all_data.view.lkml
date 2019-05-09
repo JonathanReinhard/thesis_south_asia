@@ -1,6 +1,6 @@
 view: all_data {
   label: "South Asia Data Collection"
-  sql_table_name: south_asia.all_data ;;
+  sql_table_name: Thesis.global_terrorism ;;
 
 ## I. GTD ID and Date (sorting this view based on the Code Book Categories)
 
