@@ -4,13 +4,19 @@ view: all_data {
 
 ## I. GTD ID and Date (sorting this view based on the Code Book Categories)
 
+dimension: test_image {
+  sql: 1 ;;
+#   html: <img src="https://github.com/JonathanReinhard/thesis_south_asia/blob/master/simple-image-resizer-128x128.png?raw=true"/>  ;;
+ html: <img src="https://github.com/takuyasuz/latestnew/blob/master/looker.jpg"/> ;;
+}
+
   dimension: eventid {
     group_label: "GTD ID and Date"
     label: "GTD ID"
     description: "The Unique ID that the Incident has in the GTD"
     primary_key: yes
     value_format_name: id
-    sql: ${TABLE}.eventid ;;
+    sql: ${TABLE}.eventid;;
   }
 
   dimension: iyear {
@@ -24,7 +30,10 @@ view: all_data {
   dimension: one {
     type: string
     sql: 1 ;;
-    html: <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" /> ;;
+    html:  <div>
+    <object type="text/html" data="http://validator.w3.org/" width="800px" height="600px" style="overflow:auto;border:5px ridge blue">
+    </object>
+ </div> ;;
   }
 
 
@@ -329,6 +338,14 @@ and why'"
     type: location
     sql_latitude:ROUND(${TABLE}.latitude,2)  ;;
     sql_longitude:ROUND(${TABLE}.longitude,2) ;;
+  }
+
+  dimension: map_location_2 {
+    group_label: "Incident Location"
+    label: "Map Location 2"
+    type: location
+    sql_latitude:ROUND(${TABLE}.latitude,3)  ;;
+    sql_longitude:ROUND(${TABLE}.longitude,3) ;;
   }
 
   dimension: specificity {
