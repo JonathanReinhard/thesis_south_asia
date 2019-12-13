@@ -14,8 +14,14 @@ datagroup: jonathan_thesis_south_asia_default_datagroup {
 
 persist_with: jonathan_thesis_south_asia_default_datagroup
 
+
+access_grant: test_api_call {
+  allowed_values: ["jonathan.reinhard@looker.com"]
+  user_attribute: email
+}
 explore: all_data {
   sql_always_where: ${region_txt}="South Asia" ;;
+  required_access_grants: [test_api_call]
 }
 
 map_layer: districts_ind {

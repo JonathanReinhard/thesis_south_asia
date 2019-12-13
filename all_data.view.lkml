@@ -360,7 +360,7 @@ and why'"
     group_label: "Country specific district"
     label: "India"
     type: string
-    map_layer_name:  districts_ind
+    map_layer_name: districts_ind
     sql: ${TABLE}.city ;;
   }
 
